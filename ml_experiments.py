@@ -112,7 +112,12 @@ def run_interactive_loop(
     print("Type 'quit' or press Enter on an empty line to exit.\n")
 
     while True:
-        user_input = input("You: ").strip()
+        try:
+            user_input = input("You: ").strip()
+        except EOFError:
+            print("\nGoodbye from the ML Mood Machine.")
+            break
+
         if user_input == "" or user_input.lower() == "quit":
             print("Goodbye from the ML Mood Machine.")
             break

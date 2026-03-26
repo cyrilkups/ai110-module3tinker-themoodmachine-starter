@@ -19,6 +19,7 @@ POSITIVE_WORDS = [
     "love",
     "excited",
     "awesome",
+    "fire",
     "fun",
     "chill",
     "relaxed",
@@ -33,6 +34,7 @@ NEGATIVE_WORDS = [
     "angry",
     "upset",
     "tired",
+    "exhausted",
     "stressed",
     "hate",
     "boring",
@@ -50,6 +52,17 @@ SAMPLE_POSTS = [
     "This is fine",
     "So excited for the weekend",
     "I am not happy about this",
+    "Lowkey proud of myself today :)",
+    "No cap, I'm tired but the concert was amazing",
+    "lol that quiz was bad but I'm weirdly chill now 😂",
+    "I absolutely love getting stuck in traffic 💀",
+    "Not bad actually, I'm kind of excited for tomorrow",
+    "Happy for you and kinda sad for me at the same time 🥲",
+    "Meh, the movie was okay I guess",
+    "I was stressed all morning, then good music helped",
+    "That playlist is fire, no cap",
+    "I'm exhausted but proud I finished the project",
+    "Love that the wifi died right before my quiz",
 ]
 
 # Human labels for each post above.
@@ -65,6 +78,17 @@ TRUE_LABELS = [
     "neutral",   # "This is fine"
     "positive",  # "So excited for the weekend"
     "negative",  # "I am not happy about this"
+    "positive",  # "Lowkey proud of myself today :)"
+    "mixed",     # "No cap, I'm tired but the concert was amazing"
+    "mixed",     # "lol that quiz was bad but I'm weirdly chill now 😂"
+    "negative",  # "I absolutely love getting stuck in traffic 💀"
+    "positive",  # "Not bad actually, I'm kind of excited for tomorrow"
+    "mixed",     # "Happy for you and kinda sad for me at the same time 🥲"
+    "neutral",   # "Meh, the movie was okay I guess"
+    "mixed",     # "I was stressed all morning, then good music helped"
+    "positive",  # "That playlist is fire, no cap"
+    "mixed",     # "I'm exhausted but proud I finished the project"
+    "negative",  # "Love that the wifi died right before my quiz"
 ]
 
 # TODO: Add 5-10 more posts and labels.
