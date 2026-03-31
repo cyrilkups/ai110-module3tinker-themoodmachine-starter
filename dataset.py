@@ -91,7 +91,7 @@ TRUE_LABELS = [
     "negative",  # "Love that the wifi died right before my quiz"
 ]
 
-# TODO: Add 5-10 more posts and labels.
+# Notes for future expansion:
 #
 # Requirements:
 #   - For every new post you add to SAMPLE_POSTS, you must add one

@@ -10,7 +10,7 @@ This model card describes both versions of the Mood Machine project:
 **Model type:**  
 I used both the rule based model and the ML model, and compared how they behaved on the same labeled dataset.
 
-**Intended purpose:**  
+**Intended use:**  
 The Mood Machine is meant to classify short text posts or messages as `positive`, `negative`, `neutral`, or `mixed`.
 
 **How it works (brief):**  
@@ -87,12 +87,19 @@ The ML model uses bag-of-words features from `CountVectorizer`.
 It trains directly on `SAMPLE_POSTS` and `TRUE_LABELS` from `dataset.py`.
 
 **Training behavior:**  
-The ML model was very sensitive to the labels and examples I created.
+The ML model is very sensitive to the labels and examples I created.
 
-- Before I added more examples about `fire` and mixed feelings, the ML model predicted `That song is fire` as `neutral` and `I'm exhausted but proud of myself` as `positive`.
-- After I added `That playlist is fire, no cap` and `I'm exhausted but proud I finished the project`, it changed and predicted those same breaker-style sentences as `positive` and `mixed`.
+- On extra probe sentences outside the training set, it predicts `That song is fire` as `positive` and `I'm exhausted but proud of myself` as `mixed`, which suggests it picked up useful patterns from the added examples in `dataset.py`.
+- It also predicts `I'm fine 🙂` as `positive` and `This soup made me sick` as `positive`, which shows that the same small dataset can also create unstable or misleading learned associations.
 
-This shows that the learned model adapted to the new data much more than the rule based model did.
+This makes the learned model feel more data-sensitive than the rule based model. It can fix some failures without hand-written rules, but it can also introduce new ones from a small set of labels.
+
+**Short comparison with the rule based model:**  
+
+- Yes, the learned model behaved differently from the rule based model. On the labeled dataset, the rule based model reached `0.82` accuracy while the ML model reached `1.00` training accuracy.
+- It fixed some rule based failures on the current dataset. For example, the ML model correctly labeled `I absolutely love getting stuck in traffic 💀`, `Love that the wifi died right before my quiz`, and `Meh, the movie was okay I guess`, while the rule based model got those wrong.
+- It also introduced new problems on extra probe sentences. For example, it predicts `I'm fine 🙂` as `positive` and `This soup made me sick` as `positive`, which are not reliable mood judgments.
+- It was highly sensitive to the labels I created. Because the dataset is so small, a few added examples can noticeably change what the ML model learns, especially for slang like `fire` and mixed-feeling patterns like `exhausted but proud`.
 
 **Strengths and weaknesses:**  
 
@@ -124,6 +131,13 @@ The ML score is less impressive than it looks because it is measured on the same
 - Rule based: `Love that the wifi died right before my quiz` was predicted `positive` even though the true label is `negative`. Again, the positive word `love` dominated the decision.
 - Rule based: `Meh, the movie was okay I guess` was predicted `negative` even though the true label is `neutral`, because `meh` is treated as a negative signal even though the full sentence is more flat than clearly negative.
 - ML on breaker sentences: `I'm fine 🙂` was predicted `positive` and `This soup made me sick` was predicted `positive`, even though those are not clearly positive. This suggests the ML model learned unstable associations from a very small dataset.
+
+**Detailed walkthrough of one failure:**  
+
+- For `I absolutely love getting stuck in traffic 💀`, the rule based model tokenizes the text as `["i", "absolutely", "love", "getting", "stuck", "in", "traffic", "💀"]`.
+- In the current scoring logic, `love` is a positive hit, but `stuck`, `traffic`, and `💀` do not count as negative hits.
+- That gives the sentence a score of `+1`, so the model returns `positive`.
+- This matches my understanding of what the code is doing: the mistake is not a math bug, but a limitation of the hand-written rules. The model lacks sarcasm handling and does not recognize negative events unless they appear in its vocabulary.
 
 ## 6. Limitations
 
